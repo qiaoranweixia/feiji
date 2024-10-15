@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>飞机大战</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <div id="start-screen" class="screen">
+            <h1>飞机大战</h1>
+            <p>最高分: <span id="high-score">0</span></p>
+            <div id="difficulty-select">
+                <label>难度：</label>
+                <select id="difficulty">
+                    <option value="easy">简单</option>
+                    <option value="normal" selected>普通</option>
+                    <option value="hard">困难</option>
+                </select>
+            </div>
+            <button id="start-button">开始游戏</button>
+        </div>
+        <div id="game-screen" class="screen" style="display: none;">
+            <canvas id="game-canvas"></canvas>
+            <div id="game-info">
+                <p>得分: <span id="score">0</span></p>
+                <p>生命值: <span id="health">100</span></p>
+                <p>玩家等级: <span id="level">1</span></p>
+                <p>经验值: <span id="experience">0/100</span></p>
+                <p>技能: <span id="skill">无</span></p>
+                <p>关卡目标: <span id="level-goal"></span></p>
+                <button id="pause-button">暂停</button>
+            </div>
+        </div>
+        <div id="pause-menu" class="screen" style="display: none;">
+            <h2>游戏暂停</h2>
+            <button id="resume-button">继续游戏</button>
+            <button id="quit-button">退出游戏</button>
+        </div>
+        <div id="game-over-screen" class="screen" style="display: none;">
+            <h2>游戏结束</h2>
+            <p>你的得分: <span id="final-score"></span></p>
+            <p>最高分: <span id="new-high-score"></span></p>
+            <p>你达到了第 <span id="final-level"></span> 关</p>
+            <button id="restart-button">重新开始</button>
+        </div>
+    </div>
+    <audio id="background-music" loop>
+        <source src="background-music.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="shoot-sound">
+        <source src="shoot.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="explosion-sound">
+        <source src="explosion.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="powerup-sound">
+        <source src="powerup.mp3" type="audio/mpeg">
+    </audio>
+    <script src="game.js"></script>
+</body>
+</html>
