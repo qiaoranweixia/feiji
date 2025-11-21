@@ -3,61 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>飞机大战</title>
+    <title>星际特攻 - Space Shooter</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="game-container">
-        <div id="start-screen" class="screen">
-            <h1>飞机大战</h1>
-            <p>最高分: <span id="high-score">0</span></p>
-            <div id="difficulty-select">
-                <label>难度：</label>
-                <select id="difficulty">
-                    <option value="easy">简单</option>
-                    <option value="normal" selected>普通</option>
-                    <option value="hard">困难</option>
-                </select>
+    <div class="main-wrapper">
+        <!-- 游戏主容器 -->
+        <div id="game-container">
+            
+            <!-- 开始界面 -->
+            <div id="start-screen" class="screen overlay-screen">
+                <h1 class="game-title">星际特攻</h1>
+                <div class="menu-box">
+                    <p class="high-score-display">历史最高分: <span id="high-score">0</span></p>
+                    <div class="control-group">
+                        <label>难度选择</label>
+                        <select id="difficulty" class="cyber-select">
+                            <option value="easy">新兵 (简单)</option>
+                            <option value="normal" selected>老兵 (普通)</option>
+                            <option value="hard">精英 (困难)</option>
+                        </select>
+                    </div>
+                    <!-- 这里的背景选择依然保留逻辑，但在CSS中我们会用星空覆盖 -->
+                    <div class="control-group" id="bg-select-container"></div>
+                    <button id="start-button" class="cyber-btn">出击</button>
+                </div>
             </div>
-            <button id="start-button">开始游戏</button>
-        </div>
-        <div id="game-screen" class="screen" style="display: none;">
-            <canvas id="game-canvas"></canvas>
-            <div id="game-info">
-                <p>得分: <span id="score">0</span></p>
-                <p>生命值: <span id="health">100</span></p>
-                <p>玩家等级: <span id="level">1</span></p>
-                <p>经验值: <span id="experience">0/100</span></p>
-                <p>技能: <span id="skill">无</span></p>
-                <p>关卡目标: <span id="level-goal"></span></p>
-                <button id="pause-button">暂停</button>
+
+            <!-- 游戏运行界面 -->
+            <div id="game-screen" class="screen" style="display: none;">
+                <canvas id="game-canvas"></canvas>
+                
+                <!-- HUD 抬头显示器 -->
+                <div id="hud-header">
+                    <div class="hud-item score-box">
+                        <span class="label">SCORE</span>
+                        <span id="score" class="value">0</span>
+                    </div>
+                    <div class="hud-item goal-box">
+                        <span class="label">MISSION</span>
+                        <span id="level-goal" class="value">---</span>
+                    </div>
+                </div>
+
+                <div id="hud-footer">
+                    <div class="status-bar">
+                        <div class="hp-container">
+                            <span class="label">HP</span>
+                            <div class="bar-bg"><div id="hp-bar-fill" style="width: 100%;"></div></div>
+                            <span id="health" class="value-text">100</span>
+                        </div>
+                        <div class="exp-container">
+                            <span class="label">LV.<span id="level">1</span></span>
+                            <div class="bar-bg"><div id="exp-bar-fill" style="width: 0%;"></div></div>
+                            <span id="experience" class="value-text">0/100</span>
+                        </div>
+                    </div>
+                    <div class="skill-box">
+                        <span class="label">SYSTEM:</span>
+                        <span id="skill" class="value">NORMAL</span>
+                    </div>
+                    <button id="pause-button" class="icon-btn">⏸</button>
+                </div>
             </div>
-        </div>
-        <div id="pause-menu" class="screen" style="display: none;">
-            <h2>游戏暂停</h2>
-            <button id="resume-button">继续游戏</button>
-            <button id="quit-button">退出游戏</button>
-        </div>
-        <div id="game-over-screen" class="screen" style="display: none;">
-            <h2>游戏结束</h2>
-            <p>你的得分: <span id="final-score"></span></p>
-            <p>最高分: <span id="new-high-score"></span></p>
-            <p>你达到了第 <span id="final-level"></span> 关</p>
-            <button id="restart-button">重新开始</button>
+
+            <!-- 暂停菜单 -->
+            <div id="pause-menu" class="screen overlay-screen" style="display: none;">
+                <div class="menu-box">
+                    <h2>系统暂停</h2>
+                    <button id="resume-button" class="cyber-btn">继续任务</button>
+                    <button id="quit-button" class="cyber-btn warning">放弃任务</button>
+                </div>
+            </div>
+
+            <!-- 游戏结束 -->
+            <div id="game-over-screen" class="screen overlay-screen" style="display: none;">
+                <div class="menu-box">
+                    <h2 class="danger-text">任务失败</h2>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span>最终得分</span>
+                            <span id="final-score" class="highlight">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>抵达关卡</span>
+                            <span id="final-level">1</span>
+                        </div>
+                        <div class="stat-item full-width">
+                            <span>最高记录</span>
+                            <span id="new-high-score">0</span>
+                        </div>
+                    </div>
+                    <button id="restart-button" class="cyber-btn">重启系统</button>
+                </div>
+            </div>
         </div>
     </div>
-    <audio id="background-music" loop>
-        <source src="background-music.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="shoot-sound">
-        <source src="shoot.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="explosion-sound">
-        <source src="explosion.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="powerup-sound">
-        <source src="powerup.mp3" type="audio/mpeg">
-    </audio>
+
+    <!-- 音频资源保持不变 -->
+    <audio id="background-music" loop><source src="background-music.mp3" type="audio/mpeg"></audio>
+    <audio id="shoot-sound"><source src="shoot.mp3" type="audio/mpeg"></audio>
+    <audio id="explosion-sound"><source src="explosion.mp3" type="audio/mpeg"></audio>
+    <audio id="powerup-sound"><source src="powerup.mp3" type="audio/mpeg"></audio>
+    <audio id="level-complete-sound"><source src="level-complete.mp3" type="audio/mpeg"></audio>
+
     <script src="game.js"></script>
 </body>
 </html>
